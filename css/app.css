@@ -1,8 +1,8 @@
-/*
+/* !important as it absolutely needs to override all default colours */
+.cloak {
+  color: rgba(0, 0, 0, 0) !important;
+}
 
-app-template.css overrides
-
-remove this comment if used
-remove this file if not
-
-*/
+.hide {
+  display: none !important;
+}

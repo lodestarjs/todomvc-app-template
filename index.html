@@ -10,56 +10,69 @@
 		<link rel="stylesheet" href="css/app.css">
 	</head>
 	<body>
-		<section class="todoapp">
-			<header class="header">
-				<h1>todos</h1>
-				<input class="new-todo" placeholder="What needs to be done?" autofocus>
-			</header>
-			<!-- This section should be hidden by default and shown when there are todos -->
-			<section class="main">
-				<input class="toggle-all" type="checkbox">
-				<label for="toggle-all">Mark all as complete</label>
-				<ul class="todo-list">
-					<!-- These are here just to show the structure of the list items -->
-					<!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
-					<li class="completed">
-						<div class="view">
-							<input class="toggle" type="checkbox" checked>
-							<label>Taste JavaScript</label>
-							<button class="destroy"></button>
+		<main>
+			<section class="todoapp">
+				<header class="header">
+					<h1>todos</h1>
+					<form on-submit="add:{{todo.input}}">
+						<input class="new-todo cloak" placeholder="What needs to be done?" value="{{todo.input}}" autofocus>
+					</form>
+				</header>
+				<!-- This section should be hidden by default and shown when there are todos -->
+				<section class="main hide">
+					{{#if todo.items.length}}<input class="toggle-all" type="checkbox" on-click="toggleChecked" checked='{{ todo.items.length - todo.finishedLength === 0 }}'>{{/if}}
+					<label for="toggle-all">Mark all as complete</label>
+					<ul class="todo-list">
+						<!-- These are here just to show the structure of the list items -->
+						<!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
+						{{#todo.items}}
+							{{#filterItem(this, todo.active)}}
+								<li class="{{this.completed ? 'completed': ''}}{{this.editing ? ' editing': ''}}" intro-outro="slide">
+									<div class="view" on-dblclick="set('todo.items.' + @index + '.editing', true)" />
+										<input class="toggle" type="checkbox" checked="{{this.completed}}" />
+										<label>{{this.task}}</label>
+										<button class="destroy" on-click="splice('todo.items', @index, 1)"></button>
+									</div>
+
+									{{#this.editing}}
+										<form on-submit="finishEdit">
+											<input class="edit" value="{{this.task}}" on-blur="set('todo.items.' + @index + '.editing', false)" intro="select"/>
+										</form>
+									{{/this.editing}}
+
+								</li>
+							{{/filterItem}}
+						{{/todo.items}}
+
+					</ul>
+				</section>
+				<!-- This footer should hidden by default and shown when there are todos -->
+				<footer class="hide">
+					{{#if todo.items.length}}
+						<div class="footer">
+							<!-- This should be `0 items left` by default -->
+							<span class="todo-count"><strong>{{ todo.currentLength }}</strong> item left</span>
+							<!-- Remove this if you don't implement routing -->
+							<ul class="filters">
+								<li>
+									<a class="{{todo.active === 'all' ? 'selected': ''}}" href="#/">All</a>
+								</li>
+								<li>
+									<a class="{{todo.active === false ? 'selected': ''}}"href="#/active">Active</a>
+								</li>
+								<li>
+									<a class="{{todo.active === true ? 'selected': ''}}"href="#/completed">Completed</a>
+								</li>
+							</ul>
+							<!-- Hidden if no completed items are left ↓ -->
+							{{#if completed( todo.currentLength ) }}
+								<button class="clear-completed" on-click="clear">Clear completed</button>
+							{{/if}}
 						</div>
-						<input class="edit" value="Create a TodoMVC template">
-					</li>
-					<li>
-						<div class="view">
-							<input class="toggle" type="checkbox">
-							<label>Buy a unicorn</label>
-							<button class="destroy"></button>
-						</div>
-						<input class="edit" value="Rule the web">
-					</li>
-				</ul>
+					{{/if}}
+				</footer>
 			</section>
-			<!-- This footer should hidden by default and shown when there are todos -->
-			<footer class="footer">
-				<!-- This should be `0 items left` by default -->
-				<span class="todo-count"><strong>0</strong> item left</span>
-				<!-- Remove this if you don't implement routing -->
-				<ul class="filters">
-					<li>
-						<a class="selected" href="#/">All</a>
-					</li>
-					<li>
-						<a href="#/active">Active</a>
-					</li>
-					<li>
-						<a href="#/completed">Completed</a>
-					</li>
-				</ul>
-				<!-- Hidden if no completed items are left ↓ -->
-				<button class="clear-completed">Clear completed</button>
-			</footer>
-		</section>
+		</main>
 		<footer class="info">
 			<p>Double-click to edit a todo</p>
 			<!-- Remove the below line ↓ -->
@@ -69,7 +82,10 @@
 			<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 		</footer>
 		<!-- Scripts here. Don't remove ↓ -->
-		<script src="node_modules/todomvc-common/base.js"></script>
-		<script src="js/app.js"></script>
+		<script src="/dist/assets/js/base.js"></script>
+		<script src="/dist/assets/js/ractive.js"></script>
+		<script src="/dist/assets/js/ractive-transitions-slide.js"></script>
+		<script src="/dist/assets/js/lodestar-ractive.js"></script>
+		<script src="/dist/assets/js/main.js"></script>
 	</body>
 </html>
