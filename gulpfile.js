@@ -19,6 +19,8 @@ gulp.task('copy', function() {
   gulp.src(['./app/index.html'])
     .pipe(gulp.dest('./dist/'))
     .pipe(connect.reload());
+  gulp.src(['node_modules/todomvc-app-css/index.css', 'node_modules/todomvc-common/base.css', 'css/app.css'])
+    .pipe(gulp.dest('dist/assets/css/'));
 });
 
 

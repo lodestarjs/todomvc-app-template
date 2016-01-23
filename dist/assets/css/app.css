@@ -1,0 +1,8 @@
+/* !important as it absolutely needs to override all default colours */
+.cloak {
+  color: rgba(0, 0, 0, 0) !important;
+}
+
+.hide {
+  display: none !important;
+}
