@@ -64,6 +64,8 @@ var helpers = Object.freeze({
           this.set('todo.input', '');
         }
 
+        this.fire('lengthCheck');
+
         return false;
       },
 
@@ -88,13 +90,10 @@ var helpers = Object.freeze({
         while (i--) {
           this.set('todo.items.' + i + '.completed', event.node.checked);
         }
-      }
+      },
 
-    },
+      lengthCheck: function lengthCheck() {
 
-    observe: {
-
-      '*.completed': function completed() {
         this.set('todo.currentLength', this.get('todo.items').filter(function (item) {
           return item.completed !== true;
         }).length);
@@ -102,6 +101,14 @@ var helpers = Object.freeze({
         this.set('todo.finishedLength', this.get('todo.items').filter(function (item) {
           return item.completed === true;
         }).length);
+      }
+
+    },
+
+    observe: {
+
+      '*.completed': function completed() {
+        this.fire('lengthCheck');
       }
 
     }

@@ -19,6 +19,8 @@ export default {
         this.set('todo.input', '');
       }
 
+      this.fire('lengthCheck');
+
       return false;
     },
 
@@ -42,13 +44,10 @@ export default {
       while ( i-- ) {
         this.set('todo.items.' + i + '.completed', event.node.checked);
       }
-    }
+    },
 
-  },
+    lengthCheck: function() {
 
-  observe: {
-
-    '*.completed': function() {
       this.set('todo.currentLength', this.get('todo.items').filter(function(item) {
         return item.completed !== true;
       }).length);
@@ -56,6 +55,15 @@ export default {
       this.set('todo.finishedLength', this.get('todo.items').filter(function(item) {
         return item.completed === true;
       }).length);
+
+    }
+
+  },
+
+  observe: {
+
+    '*.completed': function() {
+      this.fire('lengthCheck');
     }
 
   }
