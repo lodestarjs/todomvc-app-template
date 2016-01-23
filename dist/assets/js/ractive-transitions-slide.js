@@ -9,12 +9,12 @@
 		easing: 'easeInOut'
 	};
 
-	var PROPS = ['height', 'borderTopWidth', 'borderBottomWidth', 'paddingTop', 'paddingBottom', 'marginTop', 'marginBottom'];
+	var PROPS = ['height', 'borderTopWidth', 'paddingTop', 'paddingBottom', 'marginTop', 'marginBottom'];
 
 	var COLLAPSED = {
 		height: 0,
 		borderTopWidth: 0,
-		borderBottomWidth: 0,
+		// borderBottomWidth: 0,
 		paddingTop: 0,
 		paddingBottom: 0,
 		marginTop: 0,
