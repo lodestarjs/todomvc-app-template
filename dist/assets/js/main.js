@@ -107,7 +107,7 @@ var helpers = Object.freeze({
 
     observe: {
 
-      '*.completed': function completed() {
+      '*.completed todo.items': function completed() {
         this.fire('lengthCheck');
       }
 
