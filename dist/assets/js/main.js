@@ -124,7 +124,7 @@ var helpers = Object.freeze({
   };
 
   // Main - init and routes
-  var App = new LodeRactive({ DEBUG: false, useHistory: true, basePath: '/todomvc-app-template' });
+  var App = new LodeRactive({ DEBUG: false });
   Ractive.defaults.data = helpers;
 
   App.createRoute({
